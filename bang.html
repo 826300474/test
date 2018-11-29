@@ -1,0 +1,487 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>房屋抵押贷款申请</title>
+    <link rel="stylesheet" type="text/css" href="api.css"/>
+    <link rel="stylesheet" href="index.css">
+    <style>
+    .el-steps{
+        margin: 0 auto;
+        padding: 20px 0;
+        background-color: #fff;
+        border-bottom: solid 1px #f2f2f2;
+    }
+    .yi{
+        padding:0 20px;
+    }
+    .el-switch{
+        float: right;
+        margin-top: 10px;
+    }
+    .btn{
+        padding: 10px 0;
+        line-height: 40px;
+    }
+    .btn h1{
+        background-color: #ffa800;
+        border:solid 1px #ffa800;  
+        color: #fff;  
+        width: 40%;
+        text-align: center;  
+        float: right;
+        margin-left: 10px;
+        border-radius: 4px;
+    }
+    .btn h4{
+        background-color: #fff;
+        color: #666666;
+        border:solid 1px #666666;  
+        width: 30%;
+        text-align: center;  
+        float: right;
+        border-radius: 4px;
+    }
+    .yi{
+        background-color: #fff;
+    }
+    .yi h1,.yi h2{
+        text-align: center;
+        line-height: 40px;
+        letter-spacing: 5px;
+        font-size: 16px;
+    }
+    .yi h1 span{
+        font-size: 30px;
+        color: #ffa800;
+        font-weight: bold;
+    }
+    .yi h2{
+        color: #666666;
+    }
+    .pic img{
+        width: 100%;
+        display: block;
+    }
+    .el-radio-group{
+        float: right;
+        width: 100%;
+    }
+    .el-radio__label{
+        color: #fff;
+    }
+    .yi h3{
+        color: #666;
+        line-height: 50px; 
+        padding-right: 15px;
+        background: url('right.png') center right no-repeat;
+        -webkit-background-size: auto 12px;
+        background-size: auto 12px;       
+    }
+    .el-select{
+        float: right;
+    }
+    .yi h5{
+        float: left;
+        line-height: 50px;
+        width: 100px;
+    }
+    li input{
+        float: left;
+        height: 50px;
+        padding-left: 20px;
+        box-sizing: border-box;
+        font-size: 14px;
+        width: 100%;
+        text-align: right;
+    }
+    .yi .ceng{
+        border-bottom: solid 1px #f2f2f2;   
+    }
+    .ceng input{
+        font-size: 14px;
+        width: 80px;
+        padding: 0 10px;
+        float: left;
+        line-height: 30px;
+        margin-top: 10px;
+        border-bottom: solid 1px #f2f2f2;
+    }
+    .ceng p{
+        float: left;
+        line-height: 50px;
+    }
+    .yi li{
+        border-bottom: solid 1px #f2f2f2;
+        display:flex;
+        justify-content: space-between;
+    }
+    .yi .el-radio{
+        margin-top: 17px;
+        float: right;
+        margin-left: 10px;
+    }
+    .el-radio__label{
+        color: #000;
+    }
+    .dizhi{
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0,0,0,0.5);
+    }
+    .dizhi li{
+        background-color: #fff;
+        line-height: 50px;
+        text-align: center;
+        border-bottom: solid 1px #f2f2f2;
+    }
+    .dizhi div{
+        position: absolute;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+    }
+    .edu{
+        padding: 20px 0;
+        border-bottom: solid 1px #f2f2f2;
+    }
+    .success{
+        padding: 20px 0;
+    }
+    .success img{
+        width: 25%;
+        display: block;
+        margin:0 auto;
+    }
+    footer h1{
+        text-align: center;
+        padding: 20px;
+    }
+    .el-progress--circle{
+        padding: 20px;
+        display: block!important;
+    }
+    .el-progress-circle{
+        margin: 0 auto;   
+    }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <div class="pic">
+        <img src="fangdi.png" alt="">
+    </div>
+    <el-steps :active="active" align-center>
+      <el-step title="个人信息"></el-step>
+      <el-step title="房产信息"></el-step>
+      <el-step title="评估额度"></el-step>
+      <el-step title="提交审核"></el-step>
+    </el-steps>
+    <div class="yi" v-if="active==0">
+        <li>
+            <h5>姓名</h5>
+            <input type="text" v-model="form.name" placeholder="请输入姓名" maxlength="50">
+        </li>
+        <li>
+            <h5>手机</h5>
+            <input type="tel" v-model="form.tel" placeholder="请输入电话号码" maxlength="11">  
+        </li>
+        <li>
+            <h5 style="width: 150px;">是否自己名下</h5>
+            <template>
+               <el-radio-group v-model="form.delivery">
+                <el-radio label="是">是</el-radio>
+                <el-radio label="否">否</el-radio>
+               </el-radio-group>
+            </template>
+        </li>
+        <li>
+            <h5>征信情况</h5>
+            <template>
+              <el-radio-group v-model="form.resource"> 
+                  <el-radio label="好">好</el-radio>
+                  <el-radio label="一般">一般</el-radio>
+              </el-radio-group>
+            </template>
+        </li>
+        <div class="btn clearfix">
+            <h1 @click="next()">{{reversedMessage}}</h1>
+            <h4 @click="pre()" v-if="active>0">上一步</h4>
+        </div>
+    </div>
+    <div class="yi" v-if="active==1">
+        <li v-if="form.delivery != '是'">
+            <h5>房屋所有人</h5>
+            <input type="text" v-model="form.shuoyouren" placeholder="请输入房屋所有人姓名" maxlength="50">
+        </li>
+        <li @click="pop('location')">
+            <h5>房产位置</h5>
+            <h3>{{form.location}}</h3>
+        </li>
+        <li>
+            <h5>详细位置</h5>
+            <input type="text" v-model="form.desc" placeholder="请输入详细地址" maxlength="50">
+        </li>
+        <li>
+            <h5>房产面积</h5>
+            <input type="text" v-model="form.area" placeholder="单位：平米" maxlength="50">
+        </li>
+        <li>
+            <h5>房产朝向</h5>
+            <template>
+              <el-radio-group v-model="form.toward">
+                <el-radio label="东">东</el-radio>
+                <el-radio label="南">南</el-radio>
+                <el-radio label="西">西</el-radio>
+                <el-radio label="北">北</el-radio>
+              </el-radio-group>
+            </template>
+        </li>
+        <li @click="pop('use')">
+            <h5>使用情况</h5>
+            <h3>{{form.use}}</h3>
+        </li>
+        <li @click="pop('decorate')">
+            <h5>装修情况</h5>
+            <h3>{{form.decorate}}</h3>
+        </li>
+        <div class="clearfix ceng"><p>房产所在</p><input type="text" placeholder="填写所在层" v-model="form.suozaiceng" maxlength="3"><p>层共</p><input type="text" placeholder="填写总层高" v-model="form.zongceng" maxlength="3"><p>层</p>
+        </div>
+        <div class="btn clearfix">
+            <h1 @click="next()">{{reversedMessage}}</h1>
+            <h4 @click="pre()" v-if="active>0">上一步</h4>
+        </div>
+    </div>
+    <div class="yi" v-if="active==2">
+        <div v-if="!loading_state">
+            <li>
+                <h5 style="width: 200px;">需要贷多少</h5>
+                <input type="number" v-model="form.money" placeholder="单位：万元" maxlength="50">
+            </li>
+            <li>
+                <h5>推荐人</h5>
+                <input type="text" v-model="form.tuijianren" placeholder="请输入推荐人姓名(选填)" maxlength="50">
+            </li>
+            <div class="btn clearfix">
+                <h1 @click="next()">{{reversedMessage}}</h1>
+                <h4 @click="pre()" v-if="active>0">上一步</h4>
+            </div>
+        </div>
+        <div v-if="loading_state">
+            <el-progress type="circle" :percentage="time_val" color="#ffa800"></el-progress>  
+            <h1>额度评估中，请耐心等待...</h1>   
+        </div>
+    </div>
+    <div class="yi" v-if="active==3" size="medium">
+        <div class="edu" v-if="jie_state==false">
+            <h1>
+                额度大约<br>
+                <span>{{edu_text}}</span>万元
+            </h1>
+            <h2>(以审批结果为准)</h2>
+        </div> 
+        <div v-if="jie_state==true" class="success">
+            <img src="success.png" alt="">
+            <h1>申请提交成功，请耐心等待审核</h1>    
+        </div>
+        <div class="btn clearfix" v-if="jie_state==false">
+            <h1 @click="next()">{{reversedMessage}}</h1>
+        </div>
+    </div>
+    <div class="dizhi" v-if="dizhi_state">
+        <div>
+            <li v-for="item in pop_data" @click="set_location(item)">{{item}}</li>
+        </div>
+    </div>
+</div>
+</body>
+<script src="jquery.js"></script>
+<script src="vue.js"></script>
+<script src="index.js"></script>
+<script>
+    new Vue({
+      el: '#app',
+      data: function() {
+        return { 
+            active:0,
+            loading_state:false,
+            dizhi_state:false,
+            jie_state:false,
+            form:{
+                name:'',  
+                tel:'',
+                shuoyouren:'',
+                money:'',
+                tuijianren:'',
+                delivery:'是',
+                location:'请选择',
+                desc:'',
+                resource:'好',
+                area:'',
+                toward:'',
+                use:'请选择',
+                decorate:'请选择',
+                suozaiceng:'',
+                zongceng:'',
+            },
+            edu_text:'',
+            time_val:0,
+            pop_data:[],
+            pop_now:'',
+        }
+      },
+      methods:{
+        set_location:function(text){
+            if(this.pop_now =='use'){
+                this.form.use = text;    
+            }else if(this.pop_now =='location'){
+                this.form.location = text;      
+            }else if(this.pop_now=='decorate'){
+                this.form.decorate = text;      
+            }
+            this.dizhi_state = false;
+        },
+        pop:function(tag){
+            this.pop_now = tag;
+            if(tag =='use'){
+                this.pop_data = ['自己使用','亲属居住','已经出租','完全空置'];
+            }else if(tag =='location'){
+                this.pop_data = ["江北区","海曙区","鄞州区","北仑区","镇海区","象山县","宁海县","余姚市","慈溪市","奉化市"];
+            }else if(tag=='decorate'){
+                this.pop_data = ['毛坯','白坯','简单','豪华'];
+            }
+            this.dizhi_state = true;    
+        },
+        next:function(){
+            if(this.active==0){
+                if(!this.form.name || !this.form.tel){
+                    alert('资料未填写完整');
+                    return;
+                }
+                this.active++;       
+            }else if(this.active==1){
+                if(!this.form.desc || !this.form.area || this.form.location=='请选择' || !this.form.toward  || this.form.use=='请选择' || this.form.decorate=='请选择'|| !this.form.suozaiceng || !this.form.zongceng){
+                    alert('资料未填写完整');
+                    return;
+                }
+                if(!this.form.shuoyouren && this.form.delivery=="否"){
+                    alert('资料未填写完整');
+                    return;
+                }
+                this.active++;      
+            }else if(this.active==2){
+                if(!this.form.money){
+                    alert('资料未填写完整');
+                    return;
+                };
+                this.tijiao();
+            }else{
+                this.jie_state = true;
+            };
+        },
+        pre(){
+            if(this.active>0){
+                this.active--;         
+            }
+        },
+        removetime(){
+            var _this = this; 
+            if(_this.time_val>100){
+                 _this.loading_state = false; 
+                 _this.active++;
+                return;
+            }
+            _this.time_val++;  
+            setTimeout(function() {
+                _this.removetime()
+            }, 100)
+        },
+        tijiao:function(){
+            var search = (location.search).split('|'); 
+            for (var i = search.length - 1; i >= 0; i--) {
+                var value = search[i].split('=');
+                if(value[0]=='?id' || value[0]=='id'){
+                    var comment_id = value[1]     
+                }    
+            };
+            var _this = this;
+            var data = {
+                id:4, 
+                type:1,
+                apply_tel:this.form.tel, //手机号
+                apply_name:this.form.name, //姓名
+                apply_credit:this.form.resource, //征信
+                is_onwer:this.form.delivery, //是否申请者所有
+                house_addr:this.form.location + '-' + this.form.desc, //房屋地址
+                owner_name:this.form.shuoyouren, //拥有者姓名
+                apply_money:this.form.money, //申请金额
+                comment_name:this.form.tuijianren, //推荐人
+                house_area:this.form.area, // 面积
+                house_toward:this.form.toward, // 朝向
+                house_floor:this.form.suozaiceng+'/'+this.form.zongceng, // 所在层/总楼层
+                house_use:this.form.use, //使用情况
+                house_fit:this.form.decorate, //装修情况
+                comment_id:comment_id,
+            };
+            $.ajax({
+               type: "POST",
+               url: "https://house.essnn.com/index.php/Home/Api/Appdish/postapi",
+               data: data,
+               success: function(data){
+                    var res = JSON.parse(data)[0];
+                    res = JSON.parse(res); 
+                    if(res['state']==41){
+                        _this.edu_text = res['data']['actual_money'];  
+                        _this.loading_state = true;
+                        _this.time_val = 0;
+                        _this.removetime();
+                    }else{
+                        alert(res['Msg']);
+                    }
+               }
+            });
+        },
+      },
+      computed: {
+        reversedMessage: function () {
+          if(this.active==0 || this.active==1){
+            var text = '下一步';
+          }else if(this.active==2){
+            var text = '评估额度';
+          }else{
+            var text = '提交申请';  
+          }
+          return text; 
+        },
+      },
+      watch:{
+        'form.name':{
+            handler(){
+                if(this.form.delivery=='是'){
+                    this.form.shuoyouren = this.form.name; 
+                }else{
+                    this.form.shuoyouren = '';    
+                }
+            },
+        },
+        'form.delivery':{
+            handler(){
+                if(this.form.delivery=='是'){
+                    this.form.shuoyouren = this.form.name; 
+                }else{
+                    this.form.shuoyouren = '';    
+                }
+            },
+        },
+      }
+    })
+</script>
+</html>
